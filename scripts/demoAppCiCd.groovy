@@ -18,6 +18,10 @@ pipelineJob(jobName) {
 	disabled(false)
 
 	environmentVariables(NEXUS_URL: nexusURL, TOMCAT_PATH: tomcatPATH)
+    
+    triggers {
+            scm('* * * * *')
+    }
 
     definition {
         cps {

@@ -52,4 +52,4 @@ sed -i -e 's/8080/8085/g' /opt/tomcat/conf/server.xml
 /opt/tomcat/bin/startup.sh
 
 
-## plugins - job-dsl,envinject,maven-plugin,pipeline-maven,rebuild,saferestart,docker-plugin,docker-build-step,docker-custom-build-environment,docker-slaves,findbugs,blueocean
+## plugins - job-dsl,envinject,maven-plugin,pipeline-maven,rebuild,saferestart,docker-plugin,docker-build-step,docker-custom-build-environment,docker-slaves,findbugs,blueocean,slack
