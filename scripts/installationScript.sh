@@ -36,3 +36,5 @@ curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | 
 sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 yum install jenkins -y
 service jenkins start
+
+## plugins - job-dsl,envinject,maven-plugin,pipeline-maven

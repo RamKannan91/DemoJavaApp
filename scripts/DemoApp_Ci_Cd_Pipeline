@@ -1,30 +1,34 @@
-package common
-
 def slackChannel = "@ram_kannan"
 
 node() {
 	deleteDir()
 	try {
-		println "dry_run is ${params.DRY_RUN}"
 		stage("SCM Code Checkout") {
 			checkoutGit('master', "DemoJavaApp", "https://github.com/RamKannan91/DemoJavaApp.git")
         }
 
 	    stage("Maven Build") {
-	    	sh "cd DemoJavaApp/"
-	    	sh "mvn clean install"
+    	    withMaven(maven: 'maven3') {
+    	       sh "cd DemoJavaApp/ ; pwd ;mvn clean install"
+    	    }
 	    }
 
 	    stage("Upload Artifacts") {
-	    	sh "mvn deploy:deploy-file -DgroupId=workshop -DartifactId=DemoApp -Dversion=1.0.2-SNAPSHOT -DgeneratePom=false -Dpackaging=war -DrepositoryId=maven-snapshots -Durl=http://localhost:8081/repository/maven-snapshots/ -DpomFile=pom.xml -Dfile=target/MavenWebApp.war"
-	    }
+	        withMaven(maven: 'maven3') {
+	    	    sh "cd DemoJavaApp/ ; mvn deploy:deploy-file -DgroupId=workshop -DartifactId=DemoApp -Dversion=1.0.2-SNAPSHOT -DgeneratePom=false -Dpackaging=war -DrepositoryId=maven-snapshots -Durl=http://localhost:8081/repository/maven-snapshots/ -DpomFile=pom.xml -Dfile=target/MavenWebApp.war"
+	        }
+	   }
 
 	    stage("Deploy Dev (Ansible)") {
-
+        	sh "ansible-playbook DemoJavaApp/scripts/deployWar.yml --connection=local -e nexus_path='${env.NEXUS_URL}' -e tomcat_path='${env.TOMCAT_PATH}'"
 	    }
 
 	    stage("Deploy Dev (Container)") {
-
+	    	app = docker.build("DemoJavaApp/scripts/Dockerfile")
+	    	docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+	            app.push("${env.BUILD_NUMBER}")
+	            app.push("latest")
+	        }
 	    }
 
 	    stage("Run Tests") {
