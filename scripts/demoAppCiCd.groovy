@@ -5,7 +5,7 @@ import javaposse.jobdsl.dsl.*
 
 def jobName = "DemoApp_Ci_Cd"
 def desc = "DemoApp Workshop CI CD Flow"
-def pipelinScript = "DemoApp_Ci_Cd_Pipeline"
+def pipelinScript = "./scripts/DemoApp_Ci_Cd_Pipeline"
 
 def nexusURL = "http://100.122.214.160:8081/"
 def tomcatURL = "http://100.122.214.160:8080/"
@@ -22,7 +22,7 @@ pipelineJob(jobName) {
     definition {
         cps {
             script(readFileFromWorkspace(pipelinScript).stripIndent())
-       		sandbox()
+       	    sandbox()
         }
     }
 }
