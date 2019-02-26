@@ -1,10 +1,11 @@
 ---
 - hosts: localhost
   connection: local
+  become: yes
   gather_facts: yes
   tasks: 
     - name: download jar from artifactory
       shell: wget {{ nexus_path }}/repository/maven-releases/workshop/DemoApp/1.0.2/DemoApp-1.0.2.war
 
     - name: replace war file in tomcat
-      shell: sudo rm -rf {{ tomcat_path }}/webapps/DemoApp-* ; sudo mv DemoApp-* {{ tomcat_path }}/webapps/
+      shell: rm -rf {{ tomcat_path }}/webapps/DemoApp-* ; mv DemoApp-* {{ tomcat_path }}/webapps/
