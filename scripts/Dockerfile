@@ -1,0 +1,41 @@
+FROM centos:centos7
+
+MAINTAINER ramkannan
+
+RUN yum -y install epel-release
+RUN yum update -y
+RUN yum install -y sudo wget git nano java-1.8.0-openjdk java-1.8.0-openjdk-devel
+ 
+ENV CATALINA_HOME /usr/local/tomcat
+
+######## TOMCAT
+ENV PATH $CATALINA_HOME/bin:$PATH
+
+RUN mkdir -p "$CATALINA_HOME"
+WORKDIR $CATALINA_HOME
+
+ENV TOMCAT_MAJOR 8
+ENV TOMCAT_VERSION 8.5.38
+ENV TOMCAT_TGZ_URL https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
+
+RUN set -x \
+    && curl -fSL "$TOMCAT_TGZ_URL" -o tomcat.tar.gz \
+    && curl -fSL "$TOMCAT_TGZ_URL.asc" -o tomcat.tar.gz.asc \
+    && tar -xvf tomcat.tar.gz --strip-components=1 \
+    && rm bin/*.bat \
+    && rm tomcat.tar.gz*
+
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
+
+######## PULL WAR FILE
+RUN wget http://100.122.214.160:8081/repository/maven-releases/workshop/DemoApp/1.0.2/DemoApp-1.0.2.war
+RUN mv DemoApp-* $CATALINA_HOME/webapps/
+
+######## MAVEN
+RUN wget --no-verbose -O /tmp/apache-maven-3.3.9.tar.gz http://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+RUN tar xzf /tmp/apache-maven-3.3.9.tar.gz -C /opt/ && \
+    ln -s /opt/apache-maven-3.3.9 /opt/maven && \
+    ln -s /opt/maven/bin/mvn /usr/local/bin && \
+    rm -f /tmp/apache-maven-3.3.9.tar.gz
+ENV MAVEN_HOME /opt/maven

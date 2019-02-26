@@ -1,0 +1,69 @@
+package common
+
+def slackChannel = "@ram_kannan"
+
+node() {
+	deleteDir()
+	try {
+		println "dry_run is ${params.DRY_RUN}"
+		stage("SCM Code Checkout") {
+			checkoutGit('master', "DemoJavaApp", "https://github.com/RamKannan91/DemoJavaApp.git")
+        }
+
+	    stage("Maven Build") {
+	    	sh "cd DemoJavaApp/"
+	    	sh "mvn clean install"
+	    }
+
+	    stage("Upload Artifacts") {
+	    	sh "mvn deploy:deploy-file -DgroupId=workshop -DartifactId=DemoApp -Dversion=1.0.2-SNAPSHOT -DgeneratePom=false -Dpackaging=war -DrepositoryId=maven-snapshots -Durl=http://localhost:8081/repository/maven-snapshots/ -DpomFile=pom.xml -Dfile=target/MavenWebApp.war"
+	    }
+
+	    stage("Deploy Dev (Ansible)") {
+
+	    }
+
+	    stage("Deploy Dev (Container)") {
+
+	    }
+
+	    stage("Run Tests") {
+
+	    }
+
+	    stage("Post Build") {
+	    	currentBuild.displayName = "DevEnv-${env.BUILD_NUMBER}" 
+	    	slackSuccess(slackChannel)
+	    }
+    } catch (err) {
+        println("================ ERROR: ${err}")
+		currentBuild.displayName = "DevEnv-${env.BUILD_NUMBER}" 
+    	slackFailure(slackChannel)
+        currentBuild.result = "FAILURE"
+        error()
+    }
+}
+
+def checkoutGit(branchName, targetDir, repoURL) {
+    checkout([$class: 'GitSCM',
+      branches: [[name: branchName]],
+      doGenerateSubmoduleConfigurations: false,
+      extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: targetDir]],
+      submoduleCfg: [],
+      userRemoteConfigs: [[credentialsId: 'git-stash-commoncloud-jenkins', url: repoURL]]
+    ])
+}
+
+def slackSuccess(slackChannel) {
+    slackSend (
+        channel: slackChannel,
+        color: "#008000",
+        message: ":blush: *SUCCESS*\nDeployment Completed")
+}
+
+def slackFailure(slackChannel) {
+    slackSend (
+        channel: slackChannel,
+        color: "#FF0000",
+        message: ":dizzy_face: *FAILURE*\nDeployment Failed")
+}
