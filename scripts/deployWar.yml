@@ -4,7 +4,7 @@
   become: yes
   gather_facts: yes
   tasks: 
-    - name: download jar from artifactory
+    - name: Download war and Deploy in Server
       get_url:
         url: "{{ nexus_path }}/repository/maven-releases/workshop/DemoApp/1.0.2/DemoApp-1.0.2.war"
         dest: "{{ tomcat_path }}/webapps/DemoApp-1.0.2.war"
