@@ -1,6 +1,6 @@
 #! /bin/bash
 
-### installing nexus
+#### installing nexus
 yum update -y
 yum install java-1.8.0-openjdk.x86_64 -y
 rm -rf nexus_app
@@ -13,7 +13,7 @@ chkconfig --add nexus
 chkconfig --levels 345 nexus on
 service nexus start
 
-### installing maven
+#### installing maven
 cd /usr/local/src
 wget http://www-us.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
 tar -xf apache-maven-3.5.4-bin.tar.gz
@@ -31,10 +31,25 @@ mvn --version
 
 yum -y install centos-release-openshift-origin310 epel-release docker git pyOpenSSL
 
-### jenkins installation
+#### jenkins installation
 curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
 sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 yum install jenkins -y
 service jenkins start
 
-## plugins - job-dsl,envinject,maven-plugin,pipeline-maven
+#### Docker installtion
+curl -fsSL https://get.docker.com/ | sh
+service docker start
+
+#### tomcat installation
+cd /tmp
+wget https://www.apache.org/dist/tomcat/tomcat-8/v8.5.38/bin/apache-tomcat-8.5.38.tar.gz
+tar -xf apache-tomcat-*.tar.gz
+rm -rf /opt/tomcat
+mkdir -p /opt/tomcat
+mv apache-tomcat-8.5.38/* /opt/tomcat
+sed -i -e 's/8080/8085/g' /opt/tomcat/conf/server.xml 
+/opt/tomcat/bin/startup.sh
+
+
+## plugins - job-dsl,envinject,maven-plugin,pipeline-maven,rebuild,saferestart,docker-plugin,docker-build-step,docker-custom-build-environment,docker-slaves,findbugs,blueocean
