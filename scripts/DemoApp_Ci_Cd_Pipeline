@@ -1,4 +1,4 @@
-def slackChannel = "@ram_kannan"
+def slackChannel = "#general"
 
 node() {
 	deleteDir()
@@ -20,7 +20,7 @@ node() {
 	   }
 
 	    stage("Deploy Dev (Ansible)") {
-        	sh "ansible-playbook DemoJavaApp/scripts/deployWar.yml --connection=local -e nexus_path='${env.NEXUS_URL}' -e tomcat_path='${env.TOMCAT_PATH}'"
+        	sh "ansible-playbook DemoJavaApp/scripts/deployWar.yml --connection=local -e nexus_path=${env.NEXUS_URL}' -e tomcat_path='${env.TOMCAT_PATH}'"
 	    }
 
 	    stage("Deploy Dev (Container)") {
