@@ -17,7 +17,7 @@ pipelineJob(jobName) {
     logRotator(10,10)
 	disabled(false)
 
-	environmentVariables(NEXUS_URL: nexusURL, TOMCAT_PATH: tomcatURL)
+	environmentVariables(NEXUS_URL: nexusURL, TOMCAT_PATH: tomcatPATH)
 
     definition {
         cps {
