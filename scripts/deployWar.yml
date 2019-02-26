@@ -6,7 +6,7 @@
   tasks: 
     - name: download jar from artifactory
       get_url:
-        url: {{ nexus_path }}/repository/maven-releases/workshop/DemoApp/1.0.2/DemoApp-1.0.2.war
-        dest: {{ tomcat_path }}/webapps/DemoApp-1.0.2.war
+        url: "{{ nexus_path }}/repository/maven-releases/workshop/DemoApp/1.0.2/DemoApp-1.0.2.war"
+        dest: "{{ tomcat_path }}/webapps/DemoApp-1.0.2.war"
         mode: 0755
         force: yes
