@@ -25,7 +25,7 @@ node() {
 	    	    	  mvn dependency:copy -Dtype=war -Dartifact=workshop:DemoApp:1.0.2-SNAPSHOT:war  -DoutputDirectory=/home/jenkins/
 				"""
 	        }
-        	sh "ansible-playbook DemoJavaApp/scripts/deployWar.yml --connection=local -e nexus_path=${env.NEXUS_URL}' -e tomcat_path='${env.TOMCAT_PATH}'"
+        	sh "ansible-playbook DemoJavaApp/scripts/deployWar.yml --connection=local -e nexus_path='${env.NEXUS_URL}' -e tomcat_path='${env.TOMCAT_PATH}'"
 	    }
 
 	    stage("Deploy Dev (Container)") {
