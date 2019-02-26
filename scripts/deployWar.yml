@@ -4,9 +4,15 @@
   become: yes
   gather_facts: yes
   tasks: 
+    - name: Get latest snapshot 
+      shell: wget -q -O- --no-check-certificate "{{ nexus_path }}/repository/maven-snapshots/workshop/DemoApp/1.0.2-SNAPSHOT/maven-metadata.xml" | grep -m 1 \<value\> | sed -e 's/<value>\(.*\)<\/value>/\1/' | sed -e 's/ //g'
+      register: versionTimestamped
+
+    - debug: var=versionTimestamped.stdout_lines
+
     - name: Download war and Deploy in Server
       get_url:
-        url: "{{ nexus_path }}/repository/maven-releases/workshop/DemoApp/1.0.2/DemoApp-1.0.2.war"
+        url: "{{ nexus_path }}/repository/maven-snapshots/workshop/DemoApp/1.0.2-SNAPSHOT/DemoApp-{{ versionTimestamped.stdout }}.war"
         dest: "{{ tomcat_path }}/webapps/DemoApp-1.0.2.war"
         mode: 0755
         force: yes

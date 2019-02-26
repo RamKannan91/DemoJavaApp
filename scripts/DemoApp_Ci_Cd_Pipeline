@@ -15,11 +15,16 @@ node() {
 
 	    stage("Upload Artifacts") {
 	        withMaven(maven: 'maven3') {
-	    	    sh "cd DemoJavaApp/ ; mvn deploy:deploy-file -DgroupId=workshop -DartifactId=DemoApp -Dversion=1.0.2-SNAPSHOT -DgeneratePom=false -Dpackaging=war -DrepositoryId=maven-snapshots -Durl=http://localhost:8081/repository/maven-snapshots/ -DpomFile=pom.xml -Dfile=target/MavenWebApp.war"
+	    	    sh "cd DemoJavaApp/ ; mvn deploy:deploy-file -DgroupId=workshop -DartifactId=DemoApp -Dversion=1.0.2-SNAPSHOT -DgeneratePom=true -Dpackaging=war -DrepositoryId=maven-releases -Durl=http://localhost:8081/repository/maven-snapshots/ -DpomFile=pom.xml -Dfile=target/MavenWebApp.war"
 	        }
 	   }
 
 	    stage("Deploy Dev (Ansible)") {
+	    	withMaven(maven: 'maven3') {
+	    	    sh """mvn dependency:get -DremoteRepositories=http://localhost:8081/repository/maven-snapshots -DgroupId=workshop -DartifactId=DemoApp -Dversion=1.0.2-SNAPSHOT -Dtransitive=false -Dpackaging=war
+	    	    	  mvn dependency:copy -Dtype=war -Dartifact=workshop:DemoApp:1.0.2-SNAPSHOT:war  -DoutputDirectory=/home/jenkins/
+				"""
+	        }
         	sh "ansible-playbook DemoJavaApp/scripts/deployWar.yml --connection=local -e nexus_path=${env.NEXUS_URL}' -e tomcat_path='${env.TOMCAT_PATH}'"
 	    }
 
