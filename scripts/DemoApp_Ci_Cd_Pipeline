@@ -9,7 +9,7 @@ node() {
 
 	    stage("Maven Build") {
     	    withMaven(maven: 'maven3') {
-    	       sh "cd DemoJavaApp/ ; pwd ;mvn clean install"
+    	       sh "cd DemoJavaApp/ ; mvn clean install"
     	    }
 	    }
 
