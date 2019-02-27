@@ -32,10 +32,13 @@ node() {
 	    }
 
 	    stage("Docker Deploy") {
-	    	app = docker.build("DemoJavaApp/scripts/Dockerfile")
-	    	docker.withRegistry('https://cloud.docker.com/u/ramkannan91/repository/docker/ramkannan91/ramkannan91', 'dockerCloud') {
-	            app.push("DemoJavaApp-${env.BUILD_NUMBER}")
-	            app.push("latest")
+	      	withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerCloud', usernameVariable: 'userId', passwordVariable: 'passwd']]) {
+	            dir("DemoJavaApp") {
+	        		sh """docker build . -t ramkannan91/demojavaapp -f scripts/Dockerfile
+	        		docker login -u ${userId} -p ${passwd} index.docker.io
+	        		docker push ramkannan91/demojavaapp:latest
+	           		"""
+	            }
 	        }
 	    }
 
