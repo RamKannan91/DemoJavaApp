@@ -1,7 +1,12 @@
 #! /bin/bash
 
-#### installing nexus
+#### Docker installtion
 yum update -y
+yum install git -y
+curl -fsSL https://get.docker.com/ | sh
+service docker start
+
+#### installing nexus
 yum install java-1.8.0-openjdk.x86_64 -y
 rm -rf /nexus_app
 mkdir /nexus_app && cd /nexus_app
@@ -36,10 +41,10 @@ curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | 
 sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 yum install jenkins -y
 service jenkins start
+#### jenkins plugin installtion
+./jenkins_plugin_install.sh job-dsl,envinject,maven-plugin,pipeline-maven,rebuild,saferestart,docker-plugin,docker-build-step,docker-custom-build-environment,docker-slaves,findbugs,blueocean,slack
 
-#### Docker installtion
-curl -fsSL https://get.docker.com/ | sh
-service docker start
+### openshift
 yum -y install centos-release-openshift-origin310 epel-release git pyOpenSSL
 
 #### tomcat installation - port 8501
@@ -72,4 +77,3 @@ sed -i -e 's/8080/8502/g' /opt/tomcat/conf/server.xml
 /usr/local/tomcat/bin/startup.sh
 
 
-## plugins - job-dsl,envinject,maven-plugin,pipeline-maven,rebuild,saferestart,docker-plugin,docker-build-step,docker-custom-build-environment,docker-slaves,findbugs,blueocean,slack
