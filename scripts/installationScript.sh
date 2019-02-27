@@ -6,6 +6,19 @@ yum install git -y
 curl -fsSL https://get.docker.com/ | sh
 service docker start
 
+#### jenkins installation
+yum remove jenkins -y
+curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
+sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+yum install jenkins -y
+service jenkins start
+
+### clone git repo 
+git clone https://github.com/RamKannan91/DemoJavaApp.git
+cd DemoJavaApp/scripts/
+./jenkins_plugin_install.sh job-dsl,envinject,maven-plugin,pipeline-maven,rebuild,saferestart,docker-plugin,docker-build-step,docker-custom-build-environment,docker-slaves,findbugs,blueocean,slack
+
+
 #### installing nexus
 yum install java-1.8.0-openjdk.x86_64 -y
 rm -rf /nexus_app
@@ -29,23 +42,11 @@ cd /etc/profile.d/
 echo "# Apache Maven Environment Variables" > maven.sh
 echo "# MAVEN_HOME for Maven 1 - M2_HOME for Maven 2" >> maven.sh
 echo "export M2_HOME=/usr/local/src/apache-maven" >> maven.sh
-echo "export PATH=${M2_HOME}/bin:${PATH}" >> maven.sh
+echo "export PATH=\${M2_HOME}/bin:\${PATH}" >> maven.sh
 
 chmod +x maven.sh
 source /etc/profile.d/maven.sh
 mvn --version
-
-#### jenkins installation
-yum remove jenkins -y
-curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
-sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
-yum install jenkins -y
-service jenkins start
-#### jenkins plugin installtion
-./jenkins_plugin_install.sh job-dsl,envinject,maven-plugin,pipeline-maven,rebuild,saferestart,docker-plugin,docker-build-step,docker-custom-build-environment,docker-slaves,findbugs,blueocean,slack
-
-### openshift
-yum -y install centos-release-openshift-origin310 epel-release git pyOpenSSL
 
 #### tomcat installation - port 8501
 rm -rf /tomcat_app
@@ -60,7 +61,6 @@ sed -i -e 's/Catalina/Catalina1/g' /opt/tomcat/conf/server.xml
 sed -i -e 's/8080/8501/g' /opt/tomcat/conf/server.xml 
 /opt/tomcat/bin/startup.sh
 
-
 #### tomcat installation - port 8502
 rm -rf /tomcat_app
 mkdir /tomcat_app && cd /tomcat_app
@@ -69,11 +69,13 @@ tar -xf apache-tomcat-*.tar.gz
 rm -rf /usr/local/tomcat
 mkdir -p /usr/local/tomcat
 mv apache-tomcat-8.5.38/* /usr/local/tomcat
-sed -i -e 's/8005/9007/g' /opt/tomcat/conf/server.xml 
-sed -i -e 's/Catalina/Catalina2/g' /opt/tomcat/conf/server.xml 
-sed -i -e 's/8443/8444/g' /opt/tomcat/conf/server.xml 
-sed -i -e 's/8009/8010/g' /opt/tomcat/conf/server.xml 
-sed -i -e 's/8080/8502/g' /opt/tomcat/conf/server.xml 
+sed -i -e 's/8005/9007/g' /usr/local/tomcat/conf/server.xml 
+sed -i -e 's/Catalina/Catalina2/g' /usr/local/tomcat/conf/server.xml 
+sed -i -e 's/8443/8444/g' /usr/local/tomcat/conf/server.xml 
+sed -i -e 's/8009/8010/g' /usr/local/tomcat/conf/server.xml 
+sed -i -e 's/8080/8502/g' /usr/local/tomcat/conf/server.xml 
 /usr/local/tomcat/bin/startup.sh
 
+### openshift
+yum -y install centos-release-openshift-origin310 epel-release git pyOpenSSL
 
