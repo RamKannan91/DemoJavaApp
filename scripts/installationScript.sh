@@ -41,15 +41,34 @@ service jenkins start
 curl -fsSL https://get.docker.com/ | sh
 service docker start
 
-#### tomcat installation
+#### tomcat installation - port 8501
+rm -rf /tmp
 cd /tmp
 wget https://www.apache.org/dist/tomcat/tomcat-8/v8.5.38/bin/apache-tomcat-8.5.38.tar.gz
 tar -xf apache-tomcat-*.tar.gz
 rm -rf /opt/tomcat
 mkdir -p /opt/tomcat
 mv apache-tomcat-8.5.38/* /opt/tomcat
-sed -i -e 's/8080/8085/g' /opt/tomcat/conf/server.xml 
+sed -i -e 's/8005/9001/g' /opt/tomcat/conf/server.xml 
+sed -i -e 's/Catalina/Catalina1/g' /opt/tomcat/conf/server.xml 
+sed -i -e 's/8080/8501/g' /opt/tomcat/conf/server.xml 
 /opt/tomcat/bin/startup.sh
+
+
+#### tomcat installation - port 8502
+rm -rf /tmp
+cd /tmp
+wget https://www.apache.org/dist/tomcat/tomcat-8/v8.5.38/bin/apache-tomcat-8.5.38.tar.gz
+tar -xf apache-tomcat-*.tar.gz
+rm -rf /usr/local/tomcat
+mkdir -p /usr/local/tomcat
+mv apache-tomcat-8.5.38/* /usr/local/tomcat
+sed -i -e 's/8005/9002/g' /opt/tomcat/conf/server.xml 
+sed -i -e 's/Catalina/Catalina2/g' /opt/tomcat/conf/server.xml 
+sed -i -e 's/8443/8444/g' /opt/tomcat/conf/server.xml 
+sed -i -e 's/8009/8010/g' /opt/tomcat/conf/server.xml 
+sed -i -e 's/8080/8502/g' /opt/tomcat/conf/server.xml 
+/usr/local/tomcat/bin/startup.sh
 
 
 ## plugins - job-dsl,envinject,maven-plugin,pipeline-maven,rebuild,saferestart,docker-plugin,docker-build-step,docker-custom-build-environment,docker-slaves,findbugs,blueocean,slack

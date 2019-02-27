@@ -19,19 +19,22 @@ node() {
 	        }
 	   }
 
-	    stage("Deploy Dev (Ansible)") {
+	    stage("Direct Deploy") {
 	    	withMaven(maven: 'maven3') {
 	    	    sh """mvn dependency:get -DremoteRepositories=http://localhost:8081/repository/maven-snapshots -DgroupId=workshop -DartifactId=DemoApp -Dversion=1.0.2-SNAPSHOT -Dtransitive=false -Dpackaging=war
-	    	    	  mvn dependency:copy -Dtype=war -Dartifact=workshop:DemoApp:1.0.2-SNAPSHOT:war  -DoutputDirectory=/home/jenkins/
+	    	    	  mvn dependency:copy -Dtype=war -Dartifact=workshop:DemoApp:1.0.2-SNAPSHOT:war  -DoutputDirectory=/opt/tomcat/webapps/
 				"""
 	        }
+	    }
+
+	    stage("Ansible Deploy)") {
         	sh "ansible-playbook DemoJavaApp/scripts/deployWar.yml --connection=local -e nexus_path='${env.NEXUS_URL}' -e tomcat_path='${env.TOMCAT_PATH}'"
 	    }
 
-	    stage("Deploy Dev (Container)") {
+	    stage("Docker Deploy") {
 	    	app = docker.build("DemoJavaApp/scripts/Dockerfile")
-	    	docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-	            app.push("${env.BUILD_NUMBER}")
+	    	docker.withRegistry('https://cloud.docker.com/u/ramkannan91/repository/docker/ramkannan91/ramkannan91', 'dockerCloud') {
+	            app.push("DemoJavaApp-${env.BUILD_NUMBER}")
 	            app.push("latest")
 	        }
 	    }
