@@ -2,12 +2,12 @@
 
 #### Docker installtion
 yum update -y
-yum install git -y
+yum install git ansible dejavu-sans-fonts fontconfig xorg-x11-server-Xvfb -y
 curl -fsSL https://get.docker.com/ | sh
 service docker start
 
 #### jenkins installation
-yum remove jenkins -y
+yum install java-1.8.0-openjdk.x86_64 -y
 curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
 sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 yum install jenkins -y
@@ -16,11 +16,10 @@ service jenkins start
 ### clone git repo 
 git clone https://github.com/RamKannan91/DemoJavaApp.git
 cd DemoJavaApp/scripts/
-./jenkins_plugin_install.sh job-dsl,envinject,maven-plugin,pipeline-maven,rebuild,saferestart,docker-plugin,docker-build-step,docker-custom-build-environment,docker-slaves,findbugs,blueocean,slack
-
+./jenkins_plugin_install.sh job-dsl,envinject,maven-plugin,pipeline-maven,rebuild,saferestart,docker-plugin,docker-build-step,docker-custom-build-environment,findbugs,blueocean,slack
+service jenkins restart
 
 #### installing nexus
-yum install java-1.8.0-openjdk.x86_64 -y
 rm -rf /nexus_app
 mkdir /nexus_app && cd /nexus_app
 wget https://sonatype-download.global.ssl.fastly.net/nexus/3/latest-unix.tar.gz 
@@ -47,6 +46,8 @@ echo "export PATH=\${M2_HOME}/bin:\${PATH}" >> maven.sh
 chmod +x maven.sh
 source /etc/profile.d/maven.sh
 mvn --version
+mkdir -p /home/jenkins/.m2/repository
+chown jenkins:jenkins /home/jenkins/.m2/repository
 
 #### tomcat installation - port 8501
 rm -rf /tomcat_app
