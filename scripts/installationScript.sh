@@ -2,7 +2,7 @@
 
 #### Docker installtion
 yum update -y
-yum install git ansible dejavu-sans-fonts fontconfig xorg-x11-server-Xvfb -y
+yum install git ansible wget dejavu-sans-fonts fontconfig xorg-x11-server-Xvfb -y
 curl -fsSL https://get.docker.com/ | sh
 service docker start
 
