@@ -5,7 +5,7 @@ yum update -y
 yum install git ansible wget dejavu-sans-fonts fontconfig xorg-x11-server-Xvfb -y
 curl -fsSL https://get.docker.com/ | sh
 service docker start
-yum install vim zip openshift -y
+yum install vim zip ruby rubygems openshift -y
 
 #### jenkins installation
 yum install java-1.8.0-openjdk.x86_64 -y
