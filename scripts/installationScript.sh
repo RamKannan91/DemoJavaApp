@@ -27,7 +27,7 @@ wget https://sonatype-download.global.ssl.fastly.net/nexus/3/latest-unix.tar.gz
 tar -xvf latest-unix.tar.gz
 mv nexus-* nexus
 adduser nexus
-chown -R nexus:nexus /nexus_app/nexus
+chown -R nexus:nexus /nexus_app
 sed -i -e 's/.*run_as_user.*/run_as_user="nexus"/' /nexus_app/nexus/bin/nexus.rc
 ln -s /nexus_app/nexus/bin/nexus /etc/init.d/nexus
 chkconfig --add nexus
