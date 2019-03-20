@@ -63,7 +63,8 @@ mkdir -p /opt/tomcat
 mv apache-tomcat-8.5.38/* /opt/tomcat
 sed -i -e 's/8005/9006/g' /opt/tomcat/conf/server.xml 
 sed -i -e 's/Catalina/Catalina1/g' /opt/tomcat/conf/server.xml 
-sed -i -e 's/8080/8088/g' /opt/tomcat/conf/server.xml 
+sed -i -e 's/8080/8088/g' /opt/tomcat/conf/server.xml
+chown -R jenkins:jenkins /opt/tomcat
 /opt/tomcat/bin/startup.sh
 
 #### tomcat installation - port 8502
