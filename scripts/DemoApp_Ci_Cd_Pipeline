@@ -35,7 +35,7 @@ node() {
 	      	withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerCloud', usernameVariable: 'userId', passwordVariable: 'passwd']]) {
 	            dir("DemoJavaApp") {
 	        		sh """docker build . -t ramkannan91/demojavaapp -f scripts/Dockerfile
-	        		docker login -u ${userId} -p ${passwd} index.docker.io
+	        		docker login -u ${userId} -p ${passwd} docker.io
 	        		docker push ramkannan91/demojavaapp:latest
 	           		"""
 	            }
