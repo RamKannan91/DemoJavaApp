@@ -22,7 +22,7 @@ EXPOSE 8080
 CMD ["catalina.sh", "run"]
 
 ######## PULL WAR FILE
-RUN wget http://52.207.174.24:8081/repository/maven-releases/workshop/DemoApp/1.0.2/DemoApp-1.0.2.war
+RUN wget http://52.207.174.24:8081/repository/maven-snapshots/workshop/DemoApp/1.0.2-SNAPSHOT/DemoApp-1.0.2-20190320.143018-28.war
 RUN mv DemoApp-* $CATALINA_HOME/webapps/
 
 ######## MAVEN
