@@ -63,7 +63,7 @@ mkdir -p /opt/tomcat
 mv apache-tomcat-8.5.38/* /opt/tomcat
 sed -i -e 's/8005/9006/g' /opt/tomcat/conf/server.xml 
 sed -i -e 's/Catalina/Catalina1/g' /opt/tomcat/conf/server.xml 
-sed -i -e 's/8080/8501/g' /opt/tomcat/conf/server.xml 
+sed -i -e 's/8080/8088/g' /opt/tomcat/conf/server.xml 
 /opt/tomcat/bin/startup.sh
 
 #### tomcat installation - port 8502
@@ -78,7 +78,7 @@ sed -i -e 's/8005/9007/g' /usr/local/tomcat/conf/server.xml
 sed -i -e 's/Catalina/Catalina2/g' /usr/local/tomcat/conf/server.xml 
 sed -i -e 's/8443/8444/g' /usr/local/tomcat/conf/server.xml 
 sed -i -e 's/8009/8010/g' /usr/local/tomcat/conf/server.xml 
-sed -i -e 's/8080/8502/g' /usr/local/tomcat/conf/server.xml 
+sed -i -e 's/8080/8089/g' /usr/local/tomcat/conf/server.xml 
 /usr/local/tomcat/bin/startup.sh
 
 ### openshift
