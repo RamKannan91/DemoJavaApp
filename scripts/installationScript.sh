@@ -17,7 +17,7 @@ service jenkins start
 ### clone git repo 
 git clone https://github.com/RamKannan91/DemoJavaApp.git
 cd DemoJavaApp/scripts/
-./jenkins_plugin_install.sh job-dsl,envinject,maven-plugin,pipeline-maven,rebuild,saferestart,docker-plugin,docker-build-step,docker-custom-build-environment,findbugs,blueocean,slack
+./jenkins_plugin_install.sh job-dsl,envinject,envinject-api,maven-plugin,javadoc,pipeline-maven,config-file-provider,docker-java-api,rebuild,saferestart,docker-plugin,docker-build-step,docker-custom-build-environment,findbugs,blueocean,blueocean-github-pipeline,blueocean-jwt,blueocean-rest,blueocean-commons,blueocean-dashboard,blueocean-pipeline-editor,blueocean-personalization,jenkins-design-language,blueocean-web,blueocean-autofavorite,blueocean-jira,blueocean-events,blueocean-git-pipeline,blueocean-i18n,blueocean-core-js,blueocean-bitbucket-pipeline,blueocean-config,blueocean-pipeline-api-impl,blueocean-display-url,blueocean-rest-impl,slack
 service jenkins restart
 
 #### installing nexus
