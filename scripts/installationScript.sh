@@ -98,3 +98,4 @@ cat << EOF >/etc/docker/daemon.json
 EOF
 service docker restart
 oc cluster up
+curl icanhazip.com
