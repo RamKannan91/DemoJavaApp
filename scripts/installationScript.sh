@@ -79,7 +79,8 @@ sed -i -e 's/8005/9007/g' /usr/local/tomcat/conf/server.xml
 sed -i -e 's/Catalina/Catalina2/g' /usr/local/tomcat/conf/server.xml 
 sed -i -e 's/8443/8444/g' /usr/local/tomcat/conf/server.xml 
 sed -i -e 's/8009/8010/g' /usr/local/tomcat/conf/server.xml 
-sed -i -e 's/8080/8089/g' /usr/local/tomcat/conf/server.xml 
+sed -i -e 's/8080/8089/g' /usr/local/tomcat/conf/server.xml
+chown -R jenkins:jenkins /usr/local/tomcat
 /usr/local/tomcat/bin/startup.sh
 
 ### openshift
@@ -99,4 +100,7 @@ cat << EOF >/etc/docker/daemon.json
 EOF
 service docker restart
 oc cluster up
+usermod -aG wheel jenkins
+usermod -aG wheel centos
+usermod -aG wheel nexus
 curl icanhazip.com
