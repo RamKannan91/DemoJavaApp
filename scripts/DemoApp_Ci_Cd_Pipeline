@@ -34,11 +34,13 @@ node() {
 	    stage("Docker Deploy") {
 	      	withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerCloud', usernameVariable: 'userId', passwordVariable: 'passwd']]) {
 	            dir("DemoJavaApp") {
-	        		sh """docker build . -t ramkannan91/demojavaapp -f scripts/Dockerfile
-	        		docker login -u ${userId} -p ${passwd} docker.io
-	        		docker push ramkannan91/demojavaapp:latest
+			sh """
+				docker build . -t ramkannan91/demojavaapp -f scripts/Dockerfile
+				docker login -u ${userId} -p ${passwd} docker.io
+				docker push ramkannan91/demojavaapp:latest
+				docker ps -a | awk '{ print \$1,\$2 }' | grep demojavaapp | awk '{print \$1 }' | xargs -I {} docker rm {} --force
 				docker run -d -p 8085:8086 ramkannan91/demojavaapp:latest
-	           		"""
+	           	"""
 	            }
 	        }
 	    }
