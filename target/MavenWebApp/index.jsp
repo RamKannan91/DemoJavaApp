@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>Hello India.. test 1</h2>
+<h2>Welcome to DevOps WorkShop...</h2>
 </body>
 </html>
