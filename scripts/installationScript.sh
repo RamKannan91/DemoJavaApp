@@ -60,7 +60,7 @@ wget https://www.apache.org/dist/tomcat/tomcat-8/v8.5.39/bin/apache-tomcat-8.5.3
 tar -xf apache-tomcat-*.tar.gz
 rm -rf /opt/tomcat
 mkdir -p /opt/tomcat
-mv apache-tomcat-8.5.38/* /opt/tomcat
+mv apache-tomcat-8.5.39/* /opt/tomcat
 sed -i -e 's/8005/9006/g' /opt/tomcat/conf/server.xml 
 sed -i -e 's/Catalina/Catalina1/g' /opt/tomcat/conf/server.xml 
 sed -i -e 's/8080/8088/g' /opt/tomcat/conf/server.xml
@@ -74,7 +74,7 @@ wget https://www.apache.org/dist/tomcat/tomcat-8/v8.5.39/bin/apache-tomcat-8.5.3
 tar -xf apache-tomcat-*.tar.gz
 rm -rf /usr/local/tomcat
 mkdir -p /usr/local/tomcat
-mv apache-tomcat-8.5.38/* /usr/local/tomcat
+mv apache-tomcat-8.5.39/* /usr/local/tomcat
 sed -i -e 's/8005/9007/g' /usr/local/tomcat/conf/server.xml 
 sed -i -e 's/Catalina/Catalina2/g' /usr/local/tomcat/conf/server.xml 
 sed -i -e 's/8443/8444/g' /usr/local/tomcat/conf/server.xml 
@@ -99,7 +99,7 @@ cat << EOF >/etc/docker/daemon.json
 }
 EOF
 service docker restart
-oc cluster up
+./oc cluster up
 usermod -aG wheel jenkins
 usermod -aG wheel centos
 usermod -aG wheel nexus
