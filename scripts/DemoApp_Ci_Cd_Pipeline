@@ -78,12 +78,12 @@ def slackSuccess(slackChannel) {
     slackSend (
         channel: slackChannel,
         color: "#008000",
-        message: ":blush: *SUCCESS*\nDeployment Completed for ${currentBuild.displayName}.\n Build URL - ${env.URL}")
+        message: ":blush: *SUCCESS*\n_Deployment_ Completed for *${currentBuild.displayName}*.\nBuild URL - ${env.BUILD_URL}")
 }
 
 def slackFailure(slackChannel) {
     slackSend (
         channel: slackChannel,
         color: "#FF0000",
-        message: ":dizzy_face: *FAILURE*\nDeployment for ${currentBuild.displayName}.\n Build URL - ${env.URL}")
+        message: ":dizzy_face: *FAILURE*\n_Deployment_ Failed for *${currentBuild.displayName}*.\nBuild URL - ${env.BUILD_URL}")
 }
