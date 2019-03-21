@@ -40,6 +40,8 @@ node() {
 				docker push ramkannan91/demojavaapp:latest
 				docker ps -a | awk '{ print \$1,\$2 }' | grep demojavaapp | awk '{print \$1 }' | xargs -I {} docker rm {} --force
 				docker run -d -p 8085:8086 ramkannan91/demojavaapp:latest
+				export containerId=\$(docker ps -a | grep ramkannan91/demojavaapp:latest | awk '{print \$1}')
+				docker exec \$containerId sh -c "/usr/local/tomcat/bin/startup.sh"
 	           	"""
 	            }
 	        }
@@ -50,12 +52,12 @@ node() {
 	    }
 
 	    stage("Post Build") {
-	    	currentBuild.displayName = "DevEnv-${env.BUILD_NUMBER}" 
+	    	currentBuild.displayName = "DemoApp-Build-${env.BUILD_NUMBER}" 
 	    	slackSuccess(slackChannel)
 	    }
     } catch (err) {
         println("================ ERROR: ${err}")
-		currentBuild.displayName = "DevEnv-${env.BUILD_NUMBER}" 
+		currentBuild.displayName = "DemoApp-Build-${env.BUILD_NUMBER}" 
     	slackFailure(slackChannel)
         currentBuild.result = "FAILURE"
         error()
@@ -76,12 +78,12 @@ def slackSuccess(slackChannel) {
     slackSend (
         channel: slackChannel,
         color: "#008000",
-        message: ":blush: *SUCCESS*\nDeployment Completed")
+        message: ":blush: *SUCCESS*\n_Deployment_ Completed for *${currentBuild.displayName}*.\nBuild URL - ${env.BUILD_URL}")
 }
 
 def slackFailure(slackChannel) {
     slackSend (
         channel: slackChannel,
         color: "#FF0000",
-        message: ":dizzy_face: *FAILURE*\nDeployment Failed")
+        message: ":dizzy_face: *FAILURE*\n_Deployment_ Failed for *${currentBuild.displayName}*.\nBuild URL - ${env.BUILD_URL}")
 }
