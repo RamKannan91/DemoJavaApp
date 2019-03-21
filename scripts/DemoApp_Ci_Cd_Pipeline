@@ -52,12 +52,12 @@ node() {
 	    }
 
 	    stage("Post Build") {
-	    	currentBuild.displayName = "DevEnv-${env.BUILD_NUMBER}" 
+	    	currentBuild.displayName = "DemoApp-Build-${env.BUILD_NUMBER}" 
 	    	slackSuccess(slackChannel)
 	    }
     } catch (err) {
         println("================ ERROR: ${err}")
-		currentBuild.displayName = "DevEnv-${env.BUILD_NUMBER}" 
+		currentBuild.displayName = "DemoApp-Build-${env.BUILD_NUMBER}" 
     	slackFailure(slackChannel)
         currentBuild.result = "FAILURE"
         error()
@@ -78,12 +78,12 @@ def slackSuccess(slackChannel) {
     slackSend (
         channel: slackChannel,
         color: "#008000",
-        message: ":blush: *SUCCESS*\nDeployment Completed")
+        message: ":blush: *SUCCESS*\nDeployment Completed for ${currentBuild.displayName}.\n Build URL - ${env.URL}")
 }
 
 def slackFailure(slackChannel) {
     slackSend (
         channel: slackChannel,
         color: "#FF0000",
-        message: ":dizzy_face: *FAILURE*\nDeployment Failed")
+        message: ":dizzy_face: *FAILURE*\nDeployment for ${currentBuild.displayName}.\n Build URL - ${env.URL}")
 }
