@@ -35,8 +35,7 @@ node() {
 	      	withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerCloud', usernameVariable: 'userId', passwordVariable: 'passwd']]) {
 	            dir("DemoJavaApp") {
         			sh """
-        			    git status ; git add -A ; git commit -m "Updating Files" ; git push https://${userId}:${passwd}@github.com/RamKannan91/DemoJavaApp.git --all
-				    docker build . -t ramkannan91/demojavaapp -f scripts/Dockerfile
+        			    docker build . -t ramkannan91/demojavaapp -f Dockerfile
 				    docker login -u ${userId} -p '${passwd}' docker.io
 				    docker push ramkannan91/demojavaapp:latest
 				    docker ps -a | awk '{ print \$1,\$2 }' | grep demojavaapp | awk '{print \$1 }' | xargs -I {} docker rm {} --force
