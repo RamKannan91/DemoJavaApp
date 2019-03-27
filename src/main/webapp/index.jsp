@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>Hello Bits-Pilani....</h2>
+<h2>Welcome all !! Have a wonderful day....</h2>
 </body>
 </html>

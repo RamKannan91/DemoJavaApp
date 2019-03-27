@@ -39,7 +39,7 @@ node() {
 				    docker login -u ${userId} -p '${passwd}' docker.io
 				    docker push ramkannan91/demojavaapp:latest
 				    docker ps -a | awk '{ print \$1,\$2 }' | grep demojavaapp | awk '{print \$1 }' | xargs -I {} docker rm {} --force
-				    docker run -d -p 8085:8086 ramkannan91/demojavaapp:latest
+				    docker run -d -p 8080:8080 ramkannan91/demojavaapp:latest
 				    export containerId=\$(docker ps -a | grep ramkannan91/demojavaapp:latest | awk '{print \$1}')
 				    docker exec \$containerId sh -c "/usr/local/tomcat/bin/startup.sh"
         	           	"""
