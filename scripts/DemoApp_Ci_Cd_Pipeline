@@ -50,12 +50,14 @@ node() {
 	    }
 
 	    stage("Run Tests") {
-	    	println "====> Testing for DOCKER Deployment Tomcat"
-	    	sh "curl -v http://localhost:8087/MavenWebApp/"
+	        println "Running Tests"
+	        sh "sleep 20"
 	    	println "====> Testing for ANSIBLE Deployment Tomcat"
-	    	sh "curl -v http://localhost:8089/DemoApp-1.0.2/"
+	    	sh "curl http://localhost:8089/DemoApp-1.0.2/"
 	    	println "====> Testing for DIRECT (mvn) Deployment Tomcat"
-	    	sh "curl -v http://localhost:8088/DemoApp-1.0.2-SNAPSHOT/"	    	
+	    	sh "curl http://localhost:8088/DemoApp-1.0.2-SNAPSHOT/" 
+	    	println "====> Testing for DOCKER Deployment Tomcat"
+	    	sh "curl http://localhost:8087/MavenWebApp/"
 	    }
 
 	    stage("Post Build") {
