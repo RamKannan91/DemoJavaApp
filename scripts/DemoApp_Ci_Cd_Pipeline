@@ -42,7 +42,7 @@ node() {
         			    docker build . -t ramkannan91/demojavaapp -f Dockerfile
 				    docker login -u ${userId} -p '${passwd}' docker.io
 				    docker push ramkannan91/demojavaapp:latest
-				    docker run -d -p 8086:8080 ramkannan91/demojavaapp:latest
+				    docker run -d -p 8087:8080 ramkannan91/demojavaapp:latest
         	           	"""
 	            }
 	        }
