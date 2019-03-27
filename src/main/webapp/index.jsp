@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>Welcome all !! Have a wonderful day....Lets proceed</h2>
+<h2>Welcome all !!!</h2>
 </body>
 </html>
