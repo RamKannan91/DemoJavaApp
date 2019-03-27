@@ -12,6 +12,7 @@ yum install java-1.8.0-openjdk.x86_64 -y
 curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
 sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 yum install jenkins -y
+sed -i -e "s/8080/8083/g" /etc/sysconfig/jenkins 
 service jenkins start
 
 ### clone git repo 
