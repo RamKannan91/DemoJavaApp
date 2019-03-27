@@ -51,7 +51,7 @@ node() {
 
 	    stage("Run Tests") {
 	        println "Running Tests"
-	        sh "sleep 50"
+	        sh "sleep 30"
 	    	println "====> Testing for ANSIBLE Deployment Tomcat"
 	    	sh "curl http://localhost:8089/DemoApp-1.0.2/"
 	    	println "====> Testing for DIRECT (mvn) Deployment Tomcat"
