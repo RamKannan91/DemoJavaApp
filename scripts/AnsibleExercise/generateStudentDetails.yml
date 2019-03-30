@@ -1,0 +1,16 @@
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Student Details Generation
+      vars:
+         std_details:
+           - name: ram
+             roll: 3001
+           - name: test
+             roll: 3501
+           - name: kannan
+             roll: 4005
+      with_items: "{{std_details}}"
+      template:
+        src: student_details.j2
+        dest: /tmp/studentDetails.txt

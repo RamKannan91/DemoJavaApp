@@ -1,0 +1,22 @@
+- hosts: localhost
+  connection: local
+  vars:
+    variable_to_be_replaced: 'Hello world part 1 replacing'
+    inline_variable: 'hello again part 2 replacing'
+  tasks:
+    - name: Ansible Template Example
+      template:
+        src: hello_world.j2
+        dest: /tmp/hello_world.txt
+
+#hello_world.j2
+#--------------
+#{{ variable_to_be_replaced }}
+#This line won't be changed
+#Variable given as inline - {{ inline_variable }} - :)
+
+#output - hello_world.txt
+#------
+#Hello world
+#This line won't be changed
+#Variable given as inline - hello again - :)
