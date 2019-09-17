@@ -57,7 +57,7 @@ chown jenkins:jenkins /home/jenkins/.m2/repository
 #### tomcat installation - port 8501
 rm -rf /tomcat_app
 mkdir /tomcat_app && cd /tomcat_app
-wget https://www.apache.org/dist/tomcat/tomcat-8/v8.5.39/bin/apache-tomcat-8.5.39.tar.gz
+wget https://www.apache.org/dist/tomcat/tomcat-8/v8.5.45/bin/apache-tomcat-8.5.45.tar.gz
 tar -xf apache-tomcat-*.tar.gz
 rm -rf /opt/tomcat
 mkdir -p /opt/tomcat
@@ -71,7 +71,7 @@ chown -R jenkins:jenkins /opt/tomcat
 #### tomcat installation - port 8502
 rm -rf /tomcat_app
 mkdir /tomcat_app && cd /tomcat_app
-wget https://www.apache.org/dist/tomcat/tomcat-8/v8.5.39/bin/apache-tomcat-8.5.39.tar.gz
+wget https://www.apache.org/dist/tomcat/tomcat-8/v8.5.45/bin/apache-tomcat-8.5.45.tar.gz
 tar -xf apache-tomcat-*.tar.gz
 rm -rf /usr/local/tomcat
 mkdir -p /usr/local/tomcat
