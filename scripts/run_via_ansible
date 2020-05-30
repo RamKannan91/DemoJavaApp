@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: yes
+  tasks:
+    - git:
+       repo: 'https://github.com/RamKannan91/DemoJavaApp.git'
+       dest: ansibleDemo/
+
+    - name: Running mvn clean
+      shell: "cd ansibleDemo/ ; mvn clean install"
+      register: mvn_result
+
+    - name: "mvn clean task output"
+      debug:
+       var: mvn_result
+
+    - name: ansible copy file locally.
+      copy:
+        src: ansibleDemo/target/MavenWebApp.war
+        dest: /opt/tomcat/webapps/
+      delegate_to: localhost
